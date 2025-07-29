@@ -31,14 +31,14 @@
       padding: 30px; min-height: 80vh;
     }
 
-   .left {
-  flex: 0 0 40%;
-  background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/cover no-repeat;
-  height: 400px;
-  border-radius: 20px;   /* Rounds the image */
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional soft shadow */
-}
+    .left {
+      flex: 0 0 40%;
+      background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/cover no-repeat;
+      height: 400px;
+      border-radius: 20px;   /* Rounds the image */
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional soft shadow */
+    }
 
     .right {
       flex: 0 0 300px;
@@ -87,6 +87,14 @@
     .correct { color: green; font-weight: bold; }
     .incorrect { color: red; font-weight: bold; }
     canvas { max-width: 400px; margin: 20px auto; display: block; }
+
+    #paragraph, #mcqs {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body>
@@ -394,6 +402,34 @@ function showSuccess() {
   document.getElementById('finalPage').style.display = 'none';
   document.getElementById('successPage').style.display = 'block';
 }
+
+// 🛡️ Disable right-click on passage and MCQs
+document.addEventListener('contextmenu', event => {
+  const protectedAreas = ['paragraph', 'mcqs'];
+  if (protectedAreas.includes(event.target.id) || event.target.closest('#mcqs')) {
+    event.preventDefault();
+  }
+});
+
+// 🛡️ Disable copy, cut, paste on paragraph and mcqs
+['copy', 'cut', 'paste'].forEach(evt => {
+  const paragraph = document.getElementById('paragraph');
+  const mcqs = document.getElementById('mcqs');
+  if (paragraph) paragraph.addEventListener(evt, e => e.preventDefault());
+  if (mcqs) mcqs.addEventListener(evt, e => e.preventDefault());
+});
+
+// 🔒 Disable text selection on full page
+document.addEventListener('selectstart', function (e) {
+  e.preventDefault();
+});
+
+// 🔒 Disable dev tools shortcuts (F12, Ctrl+U, Ctrl+Shift+I/J/C)
+document.addEventListener('keydown', function (e) {
+  if (e.key === "F12") e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) e.preventDefault();
+  if (e.ctrlKey && e.key.toLowerCase() === 'u') e.preventDefault();
+});
 </script>
 
 </body>
