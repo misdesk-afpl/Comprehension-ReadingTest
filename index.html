@@ -9,8 +9,17 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Poppins', sans-serif; background: #f8fafd; color: #333; }
-    .header { padding: 20px 40px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .header h2 { color: #2acfcf; font-weight: 600; }
+    .header {
+      padding: 20px 40px; background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex; align-items: center; gap: 20px;
+    }
+    .header img {
+      height: 50px;
+    }
+    .header h2 {
+      color: #2acfcf; font-weight: 600;
+    }
 
     .container {
       display: flex; justify-content: center; align-items: center;
@@ -69,12 +78,13 @@
     }
     .correct { color: green; font-weight: bold; }
     .incorrect { color: red; font-weight: bold; }
-    canvas { max-width: 400px; margin: 20px auto; }
+    canvas { max-width: 400px; margin: 20px auto; display: block; }
   </style>
 </head>
 <body>
 
 <div class="header">
+  <img src="https://airflow.in/wp-content/uploads/2021/12/AIR.png" alt="Logo">
   <h2>Air Flow Pvt. Ltd. Comprehension Test</h2>
 </div>
 
