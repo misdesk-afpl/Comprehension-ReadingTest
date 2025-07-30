@@ -367,14 +367,26 @@ function submitAnswers() {
   document.getElementById('userName').innerText = document.getElementById('name').value.trim();
   document.getElementById('userEmail').innerText = document.getElementById('email').value.trim();
 
-  // ✅ Score text added here
-  const scoreText = `Correct Answers: ${score} out of ${currentPassage.questions.length}`;
-  const scoreElement = document.createElement("p");
-  scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
-  scoreElement.style.textAlign = "center";
-  scoreElement.style.margin = "15px 0";
-  document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
+// ✅ Score text added here
+const totalQuestions = currentPassage.questions.length;
+const correctAnswers = score;
+const wrongAnswers = totalQuestions - correctAnswers;
 
+const scoreText = `
+  Total Questions: ${totalQuestions}<br>
+  Correct Answers: ${correctAnswers}<br>
+  Wrong Answers: ${wrongAnswers}
+`;
+
+const scoreElement = document.createElement("p");
+scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
+scoreElement.style.textAlign = "center";
+scoreElement.style.margin = "15px 0";
+
+document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
+
+
+  
   const ctx = document.getElementById('resultChart').getContext('2d');
   new Chart(ctx, {
     type: 'pie',
@@ -407,9 +419,29 @@ function submitAnswers() {
 }
 
 function showSuccess() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const total = currentPassage.questions.length;
+  const right = userAnswers.filter((ans, i) => ans === currentPassage.questions[i].c).length;
+  const wrong = total - right;
+
+  const formData = new FormData();
+  formData.append('entry.1640574701', name);      // Name
+  formData.append('entry.2044946124', email);     // Email
+  formData.append('entry.645538404', total);     // Total Questions
+  formData.append('entry.895886336', right);     // Correct
+  formData.append('entry.115296724', wrong);     // Wrong
+
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
+
   document.getElementById('finalPage').style.display = 'none';
   document.getElementById('successPage').style.display = 'block';
 }
+
 
 // 🛡️ Disable right-click on passage and MCQs
 document.addEventListener('contextmenu', event => {
