@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Air Flow Pvt. Ltd. Comprehension Test</title>
-  <link rel="icon" type="image/png" href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png">
+  <link rel="icon" type="image/png" href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,46 +15,54 @@
       color: #333;
     }
     .header {
-      padding: 20px 40px; background: #fff;
+      padding: 20px 40px;
+      background: #fff;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      display: flex; align-items: center; gap: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
     .header img {
       height: 100px;
       filter: brightness(1.2) contrast(1.3);
     }
     .header h2 {
-      color: #003366; font-weight: 600; font-size: 36px;
+      color: #003366;
+      font-weight: 600;
+      font-size: 36px;
     }
-
     .container {
-      display: flex; justify-content: center; align-items: center;
-      padding: 30px; min-height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      min-height: 80vh;
     }
-
     .left {
       flex: 0 0 40%;
       background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/cover no-repeat;
       height: 400px;
-      border-radius: 20px;   /* Rounds the image */
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional soft shadow */
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     .right {
       flex: 0 0 300px;
-      background: #fff; margin-left: 30px;
+      background: #fff;
+      margin-left: 30px;
       padding: 30px 25px;
       border-radius: 15px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-
     .right h3 { text-align: center; margin-bottom: 15px; font-weight: 600; }
     input[type="text"], input[type="email"] {
-      width: 100%; padding: 12px 15px; margin: 8px 0;
-      border: 1px solid #ddd; border-radius: 25px; outline: none;
+      width: 100%;
+      padding: 12px 15px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      outline: none;
     }
-
     .error {
       color: red;
       font-size: 14px;
@@ -62,24 +70,45 @@
       display: none;
       text-align: center;
     }
-
     button {
-      width: 100%; padding: 12px; border: none; border-radius: 25px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 25px;
       background: linear-gradient(to right, #36d1dc, #5b86e5);
-      color: white; font-size: 16px; cursor: pointer; margin-top: 10px; transition: opacity 0.3s;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: opacity 0.3s;
     }
-
     button:disabled { opacity: 0.5; cursor: not-allowed; }
-
     #testPage, #questionPage, #finalPage, #successPage {
-      display: none; max-width: 800px; margin: 30px auto; text-align: left; padding: 20px;
+      display: none;
+      max-width: 800px;
+      margin: 30px auto;
+      text-align: left;
+      padding: 20px;
     }
-
     #testPage p, #questionPage p, #finalPage p {
-      background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 10px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
-
-    #testPage h3 { margin: 15px 0 5px; }
+    #testPage h3 {
+      margin: 15px 0 5px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #testPage h3 span {
+      color: red;
+      font-weight: bold;
+      font-size: 15px;
+    }
     #timer { font-weight: bold; margin-bottom: 10px; }
     .emoji {
       font-size: 2em;
@@ -88,20 +117,32 @@
     .correct { color: green; font-weight: bold; }
     .incorrect { color: red; font-weight: bold; }
     canvas { max-width: 400px; margin: 20px auto; display: block; }
-
     #paragraph, #mcqs {
       user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
       pointer-events: auto;
+    }
+    .blurred {
+      filter: blur(4px);
+      pointer-events: none;
+      user-select: none;
+      transition: filter 0.4s ease;
+    }
+    #startReadBtn {
+      background: linear-gradient(to right, #36d1dc, #5b86e5);
+      border: none;
+      border-radius: 25px;
+      padding: 3px 15px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
     }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" alt="Logo">
+  <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" alt="Logo" />
   <h2>Air Flow Pvt. Ltd. Comprehension Test</h2>
 </div>
 
@@ -110,17 +151,20 @@
   <div class="left"></div>
   <div class="right">
     <h3>Login</h3>
-    <input type="text" id="name" placeholder="Your Name" required>
-    <input type="email" id="email" placeholder="Your Email" required>
+    <input type="text" id="name" placeholder="Your Name" required />
+    <input type="email" id="email" placeholder="Your Email" required />
     <div class="error" id="errorMsg">Please enter your name and email before proceeding.</div>
-    <button onclick="startTest()">Submit</button>
+    <button type="button" onclick="startTest()">Submit</button>
   </div>
 </div>
 
 <!-- Test Page -->
 <div id="testPage">
-  <div id="timer">Reading time left: <span id="time">120</span> sec</div>
-  <h3 style="color: red;">Please Read Carefully</h3>
+  <div id="timer">Reading time left: <span id="time">300</span> sec</div>
+  <h3>
+    <span style="color:red; font-weight:bold; white-space: nowrap;">Please Read Carefully</span>
+    <button id="startReadBtn" onclick="startReading()">Start Read</button>
+  </h3>
   <p id="paragraph"></p>
   <button id="proceedToQuestions" onclick="loadQuestions()" disabled>I have read it. Now attempt the test</button>
 </div>
@@ -142,14 +186,7 @@
 </div>
 
 <!-- Success Page -->
-<div id="successPage" style="
-  display: none;
-  justify-content: center;
-  align-items: center;
-  min-height: 60vh;
-  text-align: center;
-  padding: 30px;
-">
+<div id="successPage" style="display: none; justify-content: center; align-items: center; min-height: 60vh; text-align: center; padding: 30px;">
   <h2>Thank you! Your result has been successfully submitted. <span class="emoji">😊</span></h2>
 </div>
 
@@ -164,11 +201,11 @@ const passages = [
         {"q":"AI learns from:", "o":["Data","Stones","Wood","Flowers"], "c":"Data"},
         {"q":"AI helps doctors by:", "o":["Finding diseases faster","Cooking food","Cutting trees","Cleaning roads"], "c":"Finding diseases faster"},
         {"q":"Self-driving cars use AI to:", "o":["Sense traffic","Drink water","Sleep","Dance"], "c":"Sense traffic"},
-        {"q":"AI chatbots answer:", "o":["Questions","Poems","Songs","Videos"], "c":"Questions"},
-        {"q":"AI makes work:", "o":["Fast and easy","Slow and hard","Impossible","Expensive only"], "c":"Fast and easy"},
-        {"q":"Farmers use AI to:", "o":["Know about crops","Play games","Build houses","Paint"], "c":"Know about crops"},
-        {"q":"In the future, AI may also:", "o":["Create new jobs","Sleep","Swim","Shout"], "c":"Create new jobs"},
-        {"q":"AI is a tool, so humans must:", "o":["Use it wisely","Break it","Sell it","Hide it"], "c":"Use it wisely"}
+        // {"q":"AI chatbots answer:", "o":["Questions","Poems","Songs","Videos"], "c":"Questions"},
+        // {"q":"AI makes work:", "o":["Fast and easy","Slow and hard","Impossible","Expensive only"], "c":"Fast and easy"},
+        // {"q":"Farmers use AI to:", "o":["Know about crops","Play games","Build houses","Paint"], "c":"Know about crops"},
+        // {"q":"In the future, AI may also:", "o":["Create new jobs","Sleep","Swim","Shout"], "c":"Create new jobs"},
+        // {"q":"AI is a tool, so humans must:", "o":["Use it wisely","Break it","Sell it","Hide it"], "c":"Use it wisely"}
       ]},
     
     {"title": "Cloud Computing",
@@ -179,11 +216,11 @@ const passages = [
         {"q":"Cloud keeps data safe if:", "o":["Device breaks","Sun shines","We shout","It rains"], "c":"Device breaks"},
         {"q":"Students use cloud to:", "o":["Do projects","Cook food","Wash clothes","Drive"], "c":"Do projects"},
         {"q":"Big companies use cloud to:", "o":["Run websites faster","Make toys","Sleep","Dance"], "c":"Run websites faster"},
-        {"q":"Cloud saves:", "o":["Space and money","Trees","Rivers","Stones"], "c":"Space and money"},
-        {"q":"Apps like Gmail run on:", "o":["Cloud","Tree","Mountain","Ocean"], "c":"Cloud"},
-        {"q":"Cloud helps teachers:", "o":["Share study materials","Fight","Sing","Draw"], "c":"Share study materials"},
-        {"q":"Future of cloud computing is:", "o":["Bright","Dark","Slow","Useless"], "c":"Bright"},
-        {"q":"We must protect cloud data from:", "o":["Hackers","Farmers","Doctors","Animals"], "c":"Hackers"}
+        // {"q":"Cloud saves:", "o":["Space and money","Trees","Rivers","Stones"], "c":"Space and money"},
+        // {"q":"Apps like Gmail run on:", "o":["Cloud","Tree","Mountain","Ocean"], "c":"Cloud"},
+        // {"q":"Cloud helps teachers:", "o":["Share study materials","Fight","Sing","Draw"], "c":"Share study materials"},
+        // {"q":"Future of cloud computing is:", "o":["Bright","Dark","Slow","Useless"], "c":"Bright"},
+        // {"q":"We must protect cloud data from:", "o":["Hackers","Farmers","Doctors","Animals"], "c":"Hackers"}
       ]},
     
     {"title": "Internet of Things (IoT)",
@@ -194,11 +231,11 @@ const passages = [
         {"q":"Smart bulbs can be turned on by:", "o":["Phones","Books","Tables","Fans"], "c":"Phones"},
         {"q":"Smart fridges tell us when:", "o":["Milk is over","Sun rises","Phone rings","Water boils"], "c":"Milk is over"},
         {"q":"Smart cars show:", "o":["Traffic","Music only","Movies only","Games only"], "c":"Traffic"},
-        {"q":"IoT helps farmers to:", "o":["Water plants properly","Fly","Swim","Build houses"], "c":"Water plants properly"},
-        {"q":"Smart door locks open with:", "o":["Phones","Keys only","Hammers","Pens"], "c":"Phones"},
-        {"q":"In offices, smart ACs save:", "o":["Power","Money only","Water only","Books"], "c":"Power"},
-        {"q":"IoT will help save:", "o":["Energy and water","Mountains","Stones","Rivers only"], "c":"Energy and water"},
-        {"q":"Learning IoT helps in:", "o":["Getting jobs","Sleeping","Singing","Jumping"], "c":"Getting jobs"}
+        // {"q":"IoT helps farmers to:", "o":["Water plants properly","Fly","Swim","Build houses"], "c":"Water plants properly"},
+        // {"q":"Smart door locks open with:", "o":["Phones","Keys only","Hammers","Pens"], "c":"Phones"},
+        // {"q":"In offices, smart ACs save:", "o":["Power","Money only","Water only","Books"], "c":"Power"},
+        // {"q":"IoT will help save:", "o":["Energy and water","Mountains","Stones","Rivers only"], "c":"Energy and water"},
+        // {"q":"Learning IoT helps in:", "o":["Getting jobs","Sleeping","Singing","Jumping"], "c":"Getting jobs"}
       ]},
 
     {"title": "Cybersecurity",
@@ -209,11 +246,11 @@ const passages = [
         {"q":"We lock homes to keep them:", "o":["Safe","Cold","Hot","Empty"], "c":"Safe"},
         {"q":"Without cybersecurity, hackers may steal:", "o":["Money","Rain","Flowers","Stones"], "c":"Money"},
         {"q":"Strong passwords help us:", "o":["Stay safe online","Sleep","Eat","Walk"], "c":"Stay safe online"},
-        {"q":"Sharing passwords is:", "o":["Bad","Good","Funny","Healthy"], "c":"Bad"},
-        {"q":"Updates on phones are:", "o":["Important","Useless","Harmful","Slow only"], "c":"Important"},
-        {"q":"Antivirus keeps away:", "o":["Harmful files","Food","Toys","Air"], "c":"Harmful files"},
-        {"q":"Future will need:", "o":["Cybersecurity experts","Only singers","Only painters","Only farmers"], "c":"Cybersecurity experts"},
-        {"q":"Learning cybersecurity helps us:", "o":["Stay safe","Sleep longer","Spend money","Jump higher"], "c":"Stay safe"}
+        // {"q":"Sharing passwords is:", "o":["Bad","Good","Funny","Healthy"], "c":"Bad"},
+        // {"q":"Updates on phones are:", "o":["Important","Useless","Harmful","Slow only"], "c":"Important"},
+        // {"q":"Antivirus keeps away:", "o":["Harmful files","Food","Toys","Air"], "c":"Harmful files"},
+        // {"q":"Future will need:", "o":["Cybersecurity experts","Only singers","Only painters","Only farmers"], "c":"Cybersecurity experts"},
+        // {"q":"Learning cybersecurity helps us:", "o":["Stay safe","Sleep longer","Spend money","Jump higher"], "c":"Stay safe"}
       ]},
     
     {"title": "Robotics",
@@ -224,11 +261,11 @@ const passages = [
         {"q":"Robots can look like:", "o":["Arms or wheels","Clouds","Trees only","Lakes"], "c":"Arms or wheels"},
         {"q":"In factories, robots:", "o":["Build cars","Dance","Paint pictures only","Fly kites"], "c":"Build cars"},
         {"q":"At home, small robots:", "o":["Clean floors","Read books","Write stories","Sing songs"], "c":"Clean floors"},
-        {"q":"Robots explore:", "o":["Space","Oceans only","Hills only","Rivers only"], "c":"Space"},
-        {"q":"Robots can do work that is:", "o":["Dangerous","Funny","Slow only","Lazy"], "c":"Dangerous"},
-        {"q":"Special robots help:", "o":["Disabled people","Plants grow","Fish swim","Trees talk"], "c":"Disabled people"},
-        {"q":"In shops, robots:", "o":["Give information","Jump","Sleep","Eat"], "c":"Give information"},
-        {"q":"Learning robotics can help students:", "o":["Make new robots","Fly","Swim faster","Become taller"], "c":"Make new robots"}
+        // {"q":"Robots explore:", "o":["Space","Oceans only","Hills only","Rivers only"], "c":"Space"},
+        // {"q":"Robots can do work that is:", "o":["Dangerous","Funny","Slow only","Lazy"], "c":"Dangerous"},
+        // {"q":"Special robots help:", "o":["Disabled people","Plants grow","Fish swim","Trees talk"], "c":"Disabled people"},
+        // {"q":"In shops, robots:", "o":["Give information","Jump","Sleep","Eat"], "c":"Give information"},
+        // {"q":"Learning robotics can help students:", "o":["Make new robots","Fly","Swim faster","Become taller"], "c":"Make new robots"}
       ]},
     
     {"title": "Virtual Reality (VR)",
@@ -239,11 +276,11 @@ const passages = [
         {"q":"VR makes us feel:", "o":["Inside a new place","Taller","Faster","Stronger"], "c":"Inside a new place"},
         {"q":"VR is used in:", "o":["Games","Cooking only","Running only","Sleeping"], "c":"Games"},
         {"q":"In schools, VR helps see:", "o":["Historical places","Food","New cars","Toys"], "c":"Historical places"},
-        {"q":"Doctors use VR to:", "o":["Practice surgeries","Eat","Write","Jump"], "c":"Practice surgeries"},
-        {"q":"VR makes learning:", "o":["Fun","Boring","Slow","Useless"], "c":"Fun"},
-        {"q":"People can travel:", "o":["Virtually","By running","By swimming","By flying"], "c":"Virtually"},
-        {"q":"VR may help in shopping to:", "o":["Try clothes","Make clothes","Wash clothes","Sell clothes only"], "c":"Try clothes"},
-        {"q":"Learning VR helps students:", "o":["Work in new fields","Climb trees","Sleep","Read faster only"], "c":"Work in new fields"}
+        // {"q":"Doctors use VR to:", "o":["Practice surgeries","Eat","Write","Jump"], "c":"Practice surgeries"},
+        // {"q":"VR makes learning:", "o":["Fun","Boring","Slow","Useless"], "c":"Fun"},
+        // {"q":"People can travel:", "o":["Virtually","By running","By swimming","By flying"], "c":"Virtually"},
+        // {"q":"VR may help in shopping to:", "o":["Try clothes","Make clothes","Wash clothes","Sell clothes only"], "c":"Try clothes"},
+        // {"q":"Learning VR helps students:", "o":["Work in new fields","Climb trees","Sleep","Read faster only"], "c":"Work in new fields"}
       ]},
  
    {"title": "Blockchain",
@@ -254,11 +291,11 @@ const passages = [
         {"q":"Blockchain is very:", "o":["Secure","Funny","Soft","Lazy"], "c":"Secure"},
         {"q":"Blockchain is called decentralized because:", "o":["Many computers keep data","Only one computer keeps data","No computer keeps data","Data is in books"], "c":"Many computers keep data"},
         {"q":"Bitcoin uses:", "o":["Blockchain","Cloud only","Trees","Water"], "c":"Blockchain"},
-        {"q":"Banks use blockchain to keep:", "o":["Money records","Plants","Toys","Songs"], "c":"Money records"},
-        {"q":"Blockchain helps stop:", "o":["Fraud","Traffic","Weather","Noise"], "c":"Fraud"},
-        {"q":"Blockchain removes:", "o":["Middlemen","Cars","Books","Phones"], "c":"Middlemen"},
-        {"q":"Future use of blockchain may include:", "o":["Voting","Cooking","Painting","Sleeping"], "c":"Voting"},
-        {"q":"Learning blockchain can help get jobs in:", "o":["IT and banking","Singing only","Driving only","Jumping only"], "c":"IT and banking"}
+        // {"q":"Banks use blockchain to keep:", "o":["Money records","Plants","Toys","Songs"], "c":"Money records"},
+        // {"q":"Blockchain helps stop:", "o":["Fraud","Traffic","Weather","Noise"], "c":"Fraud"},
+        // {"q":"Blockchain removes:", "o":["Middlemen","Cars","Books","Phones"], "c":"Middlemen"},
+        // {"q":"Future use of blockchain may include:", "o":["Voting","Cooking","Painting","Sleeping"], "c":"Voting"},
+        // {"q":"Learning blockchain can help get jobs in:", "o":["IT and banking","Singing only","Driving only","Jumping only"], "c":"IT and banking"}
       ]},
     
   {"title": "Augmented Reality (AR)",
@@ -269,11 +306,11 @@ const passages = [
         {"q":"AR shows real things with:", "o":["Extra data","Extra water","Extra sand","Extra food"], "c":"Extra data"},
         {"q":"In schools, AR helps students see:", "o":["3D models","Food only","New bags","Money only"], "c":"3D models"},
         {"q":"AR in shopping helps to see:", "o":["Furniture at home","Roads","Rivers","Birds"], "c":"Furniture at home"},
-        {"q":"Doctors use AR to see:", "o":["Bones and organs","Songs","Videos only","Games only"], "c":"Bones and organs"},
-        {"q":"AR makes learning:", "o":["Fun and easy","Hard","Slow","Useless"], "c":"Fun and easy"},
-        {"q":"AR in sports shows:", "o":["Scores","Songs","Movies","News"], "c":"Scores"},
-        {"q":"In future, AR may come in:", "o":["Glasses","Shoes","Books only","Pens only"], "c":"Glasses"},
-        {"q":"Learning AR helps get jobs in:", "o":["Gaming and design","Cooking only","Farming only","Sleeping only"], "c":"Gaming and design"}
+        // {"q":"Doctors use AR to see:", "o":["Bones and organs","Songs","Videos only","Games only"], "c":"Bones and organs"},
+        // {"q":"AR makes learning:", "o":["Fun and easy","Hard","Slow","Useless"], "c":"Fun and easy"},
+        // {"q":"AR in sports shows:", "o":["Scores","Songs","Movies","News"], "c":"Scores"},
+        // {"q":"In future, AR may come in:", "o":["Glasses","Shoes","Books only","Pens only"], "c":"Glasses"},
+        // {"q":"Learning AR helps get jobs in:", "o":["Gaming and design","Cooking only","Farming only","Sleeping only"], "c":"Gaming and design"}
       ]},
     
 {"title": "5G Technology",
@@ -284,17 +321,18 @@ const passages = [
         {"q":"With 5G, we can download movies in:", "o":["Seconds","Hours","Days","Months"], "c":"Seconds"},
         {"q":"Self-driving cars use 5G to:", "o":["Talk to each other","Fly","Cook food","Dance"], "c":"Talk to each other"},
         {"q":"In hospitals, 5G helps doctors do:", "o":["Remote surgeries","Singing","Painting","Shopping"], "c":"Remote surgeries"},
-        {"q":"5G helps students watch:", "o":["Live classes","Cooking shows only","Comedy only","Sleeping videos"], "c":"Live classes"},
-        {"q":"Factories use 5G to run:", "o":["Smart machines","Horses","Rivers","Books"], "c":"Smart machines"},
-        {"q":"Gamers enjoy games with:", "o":["No delay","Extra food","Big trees","Slow speed"], "c":"No delay"},
-        {"q":"In future, 5G may help in:", "o":["Flying taxis","Swimming pools","Rain","Sand"], "c":"Flying taxis"},
-        {"q":"Learning 5G helps work in:", "o":["Telecom and robotics","Painting only","Cooking only","Singing only"], "c":"Telecom and robotics"}
+        // {"q":"5G helps students watch:", "o":["Live classes","Cooking shows only","Comedy only","Sleeping videos"], "c":"Live classes"},
+        // {"q":"Factories use 5G to run:", "o":["Smart machines","Horses","Rivers","Books"], "c":"Smart machines"},
+        // {"q":"Gamers enjoy games with:", "o":["No delay","Extra food","Big trees","Slow speed"], "c":"No delay"},
+        // {"q":"In future, 5G may help in:", "o":["Flying taxis","Swimming pools","Rain","Sand"], "c":"Flying taxis"},
+        // {"q":"Learning 5G helps work in:", "o":["Telecom and robotics","Painting only","Cooking only","Singing only"], "c":"Telecom and robotics"}
       ]
     }
   ];
 
 let currentPassage = null;
 let userAnswers = [];
+let autoSubmitTimer = null;
 
 function startTest() {
   const name = document.getElementById('name').value.trim();
@@ -313,22 +351,33 @@ function startTest() {
 
   const randomIndex = Math.floor(Math.random() * passages.length);
   currentPassage = passages[randomIndex];
-
   document.getElementById('paragraph').innerText = currentPassage.text;
 
-  let timeLeft = 120;
+  document.getElementById('paragraph').classList.add('blurred');
+  document.getElementById('startReadBtn').style.display = 'inline-block';
+}
+
+function startReading() {
+  document.getElementById('paragraph').classList.remove('blurred');
+  document.getElementById('startReadBtn').style.display = 'none';
+
+  let timeLeft = 300;
   document.getElementById('time').innerText = timeLeft;
-  const timer = setInterval(() => {
+
+  autoSubmitTimer = setInterval(() => {
     timeLeft--;
     document.getElementById('time').innerText = timeLeft;
     if (timeLeft <= 0) {
-      clearInterval(timer);
-      document.getElementById('proceedToQuestions').disabled = false;
+      clearInterval(autoSubmitTimer);
+      loadQuestions(); // auto proceeds to question page
     }
   }, 1000);
+
+  document.getElementById('proceedToQuestions').disabled = false;
 }
 
 function loadQuestions() {
+  clearInterval(autoSubmitTimer);
   document.getElementById('testPage').style.display = 'none';
   document.getElementById('questionPage').style.display = 'block';
 
@@ -349,7 +398,9 @@ function submitAnswers() {
   currentPassage.questions.forEach((q, i) => {
     const selected = document.querySelector(`input[name="q${i}"]:checked`);
     if (!selected) allAnswered = false;
-    userAnswers.push(selected ? selected.value : null)
+    userAnswers.push(selected ? selected.value : null);
+  });
+
   if (!allAnswered) {
     alert("Please answer all questions before submitting.");
     return;
@@ -365,37 +416,31 @@ function submitAnswers() {
   document.getElementById('userName').innerText = document.getElementById('name').value.trim();
   document.getElementById('userEmail').innerText = document.getElementById('email').value.trim();
 
-// ✅ Score text added here
-const totalQuestions = currentPassage.questions.length;
-const correctAnswers = score;
-const wrongAnswers = totalQuestions - correctAnswers;
+  const total = currentPassage.questions.length;
+  const correct = score;
+  const wrong = total - correct;
 
-const scoreText = `
-  Total Questions: ${totalQuestions}<br>
-  Correct Answers: ${correctAnswers}<br>
-  Wrong Answers: ${wrongAnswers}
-`;
+  const scoreText = `
+    Total Questions: ${total}<br>
+    Correct Answers: ${correct}<br>
+    Wrong Answers: ${wrong}
+  `;
+  const scoreElement = document.createElement("p");
+  scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
+  scoreElement.style.textAlign = "center";
+  scoreElement.style.margin = "15px 0";
+  document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
 
-const scoreElement = document.createElement("p");
-scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
-scoreElement.style.textAlign = "center";
-scoreElement.style.margin = "15px 0";
-
-document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
-
-  const ctx = document.getElementById('resultChart').getContext('2d');
-  new Chart(ctx, {
+  new Chart(document.getElementById('resultChart').getContext('2d'), {
     type: 'pie',
     data: {
       labels: ['Correct', 'Incorrect'],
       datasets: [{
-        data: [score, currentPassage.questions.length - score],
+        data: [correct, wrong],
         backgroundColor: ['#28a745', '#dc3545']
       }]
     },
-    options: {
-      responsive: true
-    }
+    options: { responsive: true }
   });
 
   let reviewHtml = "<h4>Review Your Answers:</h4>";
@@ -410,63 +455,47 @@ document.getElementById('finalPage').insertBefore(scoreElement, document.getElem
     });
     reviewHtml += `</p>`;
   });
-
   document.getElementById('answersReview').innerHTML = reviewHtml;
-}
 
-function showSuccess() {
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const total = currentPassage.questions.length;
-  const right = userAnswers.filter((ans, i) => ans === currentPassage.questions[i].c).length;
-  const wrong = total - right;
-
+  // Auto send to Google Sheet here
   const formData = new FormData();
-  formData.append('entry.1640574701', name);      // Name
-  formData.append('entry.2044946124', email);     // Email
-  formData.append('entry.645538404', total);     // Total Questions
-  formData.append('entry.895886336', right);     // Correct
-  formData.append('entry.115296724', wrong);     // Wrong
+  formData.append('entry.1640574701', document.getElementById('name').value.trim());
+  formData.append('entry.2044946124', document.getElementById('email').value.trim());
+  formData.append('entry.645538404', total);
+  formData.append('entry.895886336', correct);
+  formData.append('entry.115296724', wrong);
 
   fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
     method: 'POST',
     mode: 'no-cors',
     body: formData
   });
-  
-  document.getElementById('finalPage').style.display = 'none';
-  document.getElementById('successPage').style.display = 'block';
 }
 
+function showSuccess() {
+  document.getElementById('finalPage').style.display = 'none';
+  document.getElementById('successPage').style.display = 'flex';
+}
 
-// 🛡️ Disable right-click on passage and MCQs
-document.addEventListener('contextmenu', event => {
-  const protectedAreas = ['paragraph', 'mcqs'];
-  if (protectedAreas.includes(event.target.id) || event.target.closest('#mcqs')) {
-    event.preventDefault();
-  }
+// Disable text select, copy, inspect
+document.addEventListener('contextmenu', e => {
+  if (['paragraph', 'mcqs'].includes(e.target.id) || e.target.closest('#mcqs')) e.preventDefault();
 });
-
-// 🛡️ Disable copy, cut, paste on paragraph and mcqs
 ['copy', 'cut', 'paste'].forEach(evt => {
   const paragraph = document.getElementById('paragraph');
   const mcqs = document.getElementById('mcqs');
   if (paragraph) paragraph.addEventListener(evt, e => e.preventDefault());
   if (mcqs) mcqs.addEventListener(evt, e => e.preventDefault());
 });
-
-// 🔒 Disable text selection on full page
-document.addEventListener('selectstart', function (e) {
-  e.preventDefault();
-});
-
-// 🔒 Disable dev tools shortcuts (F12, Ctrl+U, Ctrl+Shift+I/J/C)
-document.addEventListener('keydown', function (e) {
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('keydown', e => {
   if (e.key === "F12") e.preventDefault();
   if (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) e.preventDefault();
   if (e.ctrlKey && e.key.toLowerCase() === 'u') e.preventDefault();
 });
 </script>
+</body>
+</html>
 
 </body>
 </html>
