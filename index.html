@@ -356,14 +356,26 @@ function formatDuration(seconds) {
 function startTest() {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
-  const errorMsg = document.getElementById('errorMsg');
+  const nameError = document.getElementById('nameError');
+  const emailError = document.getElementById('emailError');
 
-  if (!name || !email) {
-    errorMsg.style.display = 'block';
-    return;
+  let valid = true;
+
+  if (!name) {
+    nameError.style.display = 'block';
+    valid = false;
   } else {
-    errorMsg.style.display = 'none';
+    nameError.style.display = 'none';
   }
+
+  if (!email || !email.includes('@')) {
+    emailError.style.display = 'block';
+    valid = false;
+  } else {
+    emailError.style.display = 'none';
+  }
+
+  if (!valid) return;
 
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('testPage').style.display = 'block';
