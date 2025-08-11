@@ -356,8 +356,11 @@ function formatDuration(seconds) {
 function startTest() {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
-  const nameError = document.getElementById('nameError');
-  const emailError = document.getElementById('emailError');
+    const nameRegex = /^[a-zA-Z ]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // const nameError = document.getElementById('nameError');
+  // const emailError = document.getElementById('emailError');
 
   let valid = true;
 
