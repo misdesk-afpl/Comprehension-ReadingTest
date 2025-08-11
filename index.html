@@ -163,30 +163,6 @@
     <input type="email" id="email" placeholder="Your Email" required />
     <div class="error" id="emailError">Please enter a valid Email.</div>
     <button type="button" onclick="startTest()">Submit</button>
-<script>
-function startTest() {
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-
-  // ✅ Name validation (letters and spaces only)
-  const nameRegex = /^[a-zA-Z ]+$/;
-  if (!nameRegex.test(name)) {
-    alert("Please enter a valid name (letters and spaces only).");
-    return;
-  }
-
-  // ✅ Email validation (must have @ and .domain)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/; 
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email (e.g. user@example.com).");
-    return;
-}
-
-  // ✅ Agar dono valid hain, aage proceed karo
-  console.log("Login success!");
-  // Yaha apka test start ka code aa jayega
-}
-</script>
   </div>
 </div>
 
@@ -395,12 +371,12 @@ function startTest() {
     nameError.style.display = 'none';
   }
 
-  if (!email || !email.includes('@')) {
+if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     emailError.style.display = 'block';
     valid = false;
-  } else {
+} else {
     emailError.style.display = 'none';
-  }
+}
 
   if (!valid) return;
 
