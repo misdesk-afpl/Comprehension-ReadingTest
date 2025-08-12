@@ -368,42 +368,41 @@ function formatDuration(seconds) {
 }
 
 function startTest() {
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-    const nameRegex = /^[a-zA-Z ]+$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/; 
+    let nameInput = document.getElementById("name");
+    let emailInput = document.getElementById("email");
+    let name = nameInput.value.trim();
+    let email = emailInput.value.trim();
 
-  // const nameError = document.getElementById('nameError');
-  // const emailError = document.getElementById('emailError');
+    let nameError = document.getElementById("nameError");
+    let emailError = document.getElementById("emailError");
 
-  let valid = true;
+    let nameRegex = /^[A-Za-z\s]+$/;
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!name) {
-    nameError.style.display = 'block';
-    valid = false;
-  } else {
-    nameError.style.display = 'none';
-  }
+    // Reset errors
+    nameError.style.display = "none";
+    emailError.style.display = "none";
 
-if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    emailError.style.display = 'block';
-    valid = false;
-} else {
-    emailError.style.display = 'none';
-}
+    let valid = true;
 
-  if (!valid) return;
+    if (!nameRegex.test(name)) {
+        nameError.style.display = "inline";
+        nameInput.focus();
+        valid = false;
+    } 
+    if (!emailRegex.test(email)) {
+        emailError.style.display = "inline";
+        if (valid) emailInput.focus();
+        valid = false;
+    }
 
-  document.getElementById('loginPage').style.display = 'none';
-  document.getElementById('testPage').style.display = 'block';
+    if (!valid) return;
 
-  const randomIndex = Math.floor(Math.random() * passages.length);
-  currentPassage = passages[randomIndex];
-  document.getElementById('paragraph').innerText = currentPassage.text;
-
-  document.getElementById('paragraph').classList.add('blurred');
-  document.getElementById('startReadBtn').style.display = 'inline-block';
-  document.getElementById('time').innerText = '';
+    // If valid, start test
+    selectedPassage = passages[Math.floor(Math.random() * passages.length)];
+    document.getElementById("paragraph").innerText = selectedPassage.text;
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("reading-section").style.display = "block";
 }
 
 function startReading() {
