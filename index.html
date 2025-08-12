@@ -368,11 +368,8 @@ function formatDuration(seconds) {
 }
 
 function startTest() {
-    let nameInput = document.getElementById("name");
-    let emailInput = document.getElementById("email");
-    let name = nameInput.value.trim();
-    let email = emailInput.value.trim();
-
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
     let nameError = document.getElementById("nameError");
     let emailError = document.getElementById("emailError");
 
@@ -387,22 +384,30 @@ function startTest() {
 
     if (!nameRegex.test(name)) {
         nameError.style.display = "inline";
-        nameInput.focus();
         valid = false;
     } 
     if (!emailRegex.test(email)) {
         emailError.style.display = "inline";
-        if (valid) emailInput.focus();
         valid = false;
     }
 
     if (!valid) return;
 
-    // If valid, start test
     currentPassage = passages[Math.floor(Math.random() * passages.length)];
     document.getElementById("paragraph").innerText = currentPassage.text;
-    document.getElementById("login-section").style.display = "none";
+
+    document.getElementById("loginPage").style.display = "none";
     document.getElementById("testPage").style.display = "block";
+}
+
+function endTest() {
+    document.getElementById("testPage").style.display = "none";
+    document.getElementById("resultPage").style.display = "block";
+}
+
+function restartTest() {
+    document.getElementById("resultPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "block";
 }
 
 function startReading() {
