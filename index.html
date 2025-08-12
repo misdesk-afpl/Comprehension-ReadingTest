@@ -399,10 +399,10 @@ function startTest() {
     if (!valid) return;
 
     // If valid, start test
-    selectedPassage = passages[Math.floor(Math.random() * passages.length)];
-    document.getElementById("paragraph").innerText = selectedPassage.text;
+    currentPassage = passages[Math.floor(Math.random() * passages.length)];
+    document.getElementById("paragraph").innerText = currentPassage.text;
     document.getElementById("login-section").style.display = "none";
-    document.getElementById("reading-section").style.display = "block";
+    document.getElementById("testPage").style.display = "block";
 }
 
 function startReading() {
