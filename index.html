@@ -1005,47 +1005,74 @@ function formatDuration(seconds) {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
+// Ensure selected passage has valid questions
+function selectValidPassage() {
+  let passage;
+  let attempts = 0;
+  do {
+    passage = passages[Math.floor(Math.random() * passages.length)];
+    attempts++;
+    if (attempts > 20) break; // fail-safe to avoid infinite loop
+  } while (!passage.questions || passage.questions.length === 0);
+  return passage;
+}
+
 function startTest() {
-    let name = document.getElementById("name").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let nameError = document.getElementById("nameError");
-    let emailError = document.getElementById("emailError");
+  let name = document.getElementById("name").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let nameError = document.getElementById("nameError");
+  let emailError = document.getElementById("emailError");
 
-    let nameRegex = /^[A-Za-z\s]+$/;
-    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let nameRegex = /^[A-Za-z\s]+$/;
+  let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Reset errors
-    nameError.style.display = "none";
-    emailError.style.display = "none";
+  // Reset errors
+  nameError.style.display = "none";
+  emailError.style.display = "none";
 
-    let valid = true;
+  let valid = true;
 
-    if (!nameRegex.test(name)) {
-        nameError.style.display = "inline";
-        valid = false;
-    } 
-    if (!emailRegex.test(email)) {
-        emailError.style.display = "inline";
-        valid = false;
-    }
+  if (!nameRegex.test(name)) {
+    nameError.style.display = "inline";
+    valid = false;
+  }
+  if (!emailRegex.test(email)) {
+    emailError.style.display = "inline";
+    valid = false;
+  }
 
-    if (!valid) return;
+  if (!valid) return;
 
-    currentPassage = passages[Math.floor(Math.random() * passages.length)];
-    document.getElementById("paragraph").innerText = currentPassage.text;
+  currentPassage = selectValidPassage();
 
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("testPage").style.display = "block";
-}
+  // Fix for passage 9: convert questions format if needed
+  if (currentPassage.title.includes("Robotics")) {
+    currentPassage.questions = currentPassage.questions.map(q => {
+      // If already in correct format, skip
+      if (q.q && Array.isArray(q.o)) return q;
+      // Convert string options to array
+      let optionsArray = [];
+      if (typeof q.options === "string") {
+        optionsArray = q.options.split(",").map(opt => opt.trim());
+      }
+      return {
+        q: q.question || "",
+        o: optionsArray,
+        c: q.correct || ""
+      };
+    });
+  }
 
-function endTest() {
-    document.getElementById("testPage").style.display = "none";
-    document.getElementById("resultPage").style.display = "block";
-}
+  document.getElementById("paragraph").innerText = currentPassage.text;
 
-function restartTest() {
-    document.getElementById("resultPage").style.display = "none";
-    document.getElementById("loginPage").style.display = "block";
+  document.getElementById("loginPage").style.display = "none";
+  document.getElementById("testPage").style.display = "block";
+
+  // Reset reading page UI
+  document.getElementById('paragraph').classList.add('blurred');
+  document.getElementById('startReadBtn').style.display = 'inline-block';
+  const proceedBtn = document.getElementById('proceedToQuestions');
+  proceedBtn.disabled = true;
 }
 
 function startReading() {
@@ -1057,11 +1084,14 @@ function startReading() {
   let secondsLeft = 600; // 10 minutes
   document.getElementById('time').innerText = formatDuration(secondsLeft);
   const minReadingTime = 120; // 2 minutes in seconds
+
+  if (readingTimerInterval) clearInterval(readingTimerInterval);
+
   readingTimerInterval = setInterval(() => {
     secondsLeft--;
     document.getElementById('time').innerText = formatDuration(secondsLeft);
     // Enable button after 2 minutes
-    if (secondsLeft <= (600 - minReadingTime)) { // after 2 minutes passed
+    if (secondsLeft <= (600 - minReadingTime)) {
       proceedBtn.disabled = false;
     }
     // Auto proceed after 10 minutes
@@ -1074,7 +1104,7 @@ function startReading() {
 }
 
 function loadQuestions() {
-  clearInterval(readingTimerInterval);
+  if (readingTimerInterval) clearInterval(readingTimerInterval);
   readingEndTime = Date.now();
   testStartTime = Date.now();
 
@@ -1083,6 +1113,7 @@ function loadQuestions() {
 
   let mcqsHtml = "";
   currentPassage.questions.forEach((q, i) => {
+    if (!q.q || !Array.isArray(q.o)) return; // skip invalid question
     mcqsHtml += `<p><strong>${i + 1}. ${q.q} <span style="color:red">*</span></strong><br>`;
     q.o.forEach(opt => {
       mcqsHtml += `<label><input type="radio" name="q${i}" value="${opt}"> ${opt}</label><br>`;
@@ -1119,10 +1150,13 @@ function submitAnswers() {
   document.getElementById('userEmail').innerText = document.getElementById('email').value.trim();
   document.getElementById('userTopic').innerText = currentPassage.title;
 
-
   const total = currentPassage.questions.length;
   const correct = score;
   const wrong = total - correct;
+
+  // Remove previous score element if exists
+  const oldScoreElement = document.getElementById('finalPage').querySelector('p.score-summary');
+  if (oldScoreElement) oldScoreElement.remove();
 
   const scoreText = `
     Total Questions: ${total}<br>
@@ -1130,12 +1164,18 @@ function submitAnswers() {
     Wrong Answers: ${wrong}
   `;
   const scoreElement = document.createElement("p");
+  scoreElement.classList.add('score-summary');
   scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
   scoreElement.style.textAlign = "center";
   scoreElement.style.margin = "15px 0";
   document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
 
-  new Chart(document.getElementById('resultChart').getContext('2d'), {
+  // Destroy previous chart if exists
+  if (window.resultChartInstance) {
+    window.resultChartInstance.destroy();
+  }
+
+  window.resultChartInstance = new Chart(document.getElementById('resultChart').getContext('2d'), {
     type: 'pie',
     data: {
       labels: ['Correct', 'Incorrect'],
@@ -1149,6 +1189,7 @@ function submitAnswers() {
 
   let reviewHtml = "<h4>Review Your Answers:</h4>";
   currentPassage.questions.forEach((q, i) => {
+    if (!q.q || !Array.isArray(q.o)) return;
     const isCorrect = userAnswers[i] === q.c;
     reviewHtml += `<p><strong>${i + 1}. ${q.q}</strong><br>`;
     q.o.forEach(opt => {
@@ -1164,22 +1205,22 @@ function submitAnswers() {
   const readingTime = formatDuration(Math.round((readingEndTime - readingStartTime) / 1000));
   const testTime = formatDuration(Math.round((testEndTime - testStartTime) / 1000));
 
-// Auto send to Google Sheet
-const formData = new FormData();
-formData.append('entry.1640574701', document.getElementById('name').value.trim()); // Name
-formData.append('entry.2044946124', document.getElementById('email').value.trim()); // Email
-formData.append('entry.1911046396', currentPassage.title); // 🔹 Reading Topic (NEW FIELD)
-formData.append('entry.645538404', total); // Total Questions
-formData.append('entry.895886336', correct); // Correct
-formData.append('entry.115296724', wrong); // Wrong
-formData.append('entry.2140657840', readingTime); // Reading Time
-formData.append('entry.1238249296', testTime);   // Test Time
+  // Auto send to Google Sheet
+  const formData = new FormData();
+  formData.append('entry.1640574701', document.getElementById('name').value.trim()); // Name
+  formData.append('entry.2044946124', document.getElementById('email').value.trim()); // Email
+  formData.append('entry.1911046396', currentPassage.title); // Reading Topic
+  formData.append('entry.645538404', total); // Total Questions
+  formData.append('entry.895886336', correct); // Correct
+  formData.append('entry.115296724', wrong); // Wrong
+  formData.append('entry.2140657840', readingTime); // Reading Time
+  formData.append('entry.1238249296', testTime);   // Test Time
 
-fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
-  method: 'POST',
-  mode: 'no-cors',
-  body: formData
-});
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
 }
 
 function showSuccess() {
@@ -1187,6 +1228,7 @@ function showSuccess() {
   document.getElementById('successPage').style.display = 'flex';
 }
 
+// Disable right-click, copy, cut, paste, selectstart, and some keys for security
 document.addEventListener('contextmenu', e => {
   if (['paragraph', 'mcqs'].includes(e.target.id) || e.target.closest('#mcqs')) e.preventDefault();
 });
